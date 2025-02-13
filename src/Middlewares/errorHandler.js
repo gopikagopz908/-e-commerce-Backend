@@ -5,7 +5,9 @@ const errorHandler = (err, req, res, next) => {
           return res.status(400).json({ message: joiMessage });
       
       case !!err.statusCode:
-          return res.status(err.statusCode).json({ message: err.message });
+       
+            return res.status(err.statusCode).json({ message: err.message });
+      
 
       case err.name === 'CastError':
           return res.status(400).json({ message: 'Invalid ID format' });

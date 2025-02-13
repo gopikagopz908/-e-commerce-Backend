@@ -10,10 +10,10 @@ const wishlistSchema=new mongoose.Schema({
     wishlist:[
         {
             type:mongoose.Types.ObjectId,
-            ref:'Product',
+            ref:'product',
         }
     ]
 })
 
-const wishlist=mongoose.model('wishlist',wishlistSchema)
+const wishlist=mongoose.model('Wishlist',wishlistSchema)
 export default wishlist

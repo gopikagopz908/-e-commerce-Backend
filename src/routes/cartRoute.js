@@ -1,12 +1,12 @@
 import express from 'express'
-import { addToCart, decrementProductQuantity, getCart, incrementProductQuantity, removeFromCart } from '../controllers/cartController.js'
+import {   addToCart, decrementProductQuantity, getCart, incrementProductQuantity, removeFromCart } from '../controllers/cartController.js'
 import authenticate from '../Middlewares/authMiddleware.js';
 
 
 
 const router=express.Router()
 
-router.post('/addToCart/:productId',authenticate,addToCart)
+router.post('/addtocart/:productId',authenticate,addToCart)
 router.get('/getCart',authenticate,getCart)
 router.delete('/removeFromCart/:productId',authenticate,removeFromCart)
 

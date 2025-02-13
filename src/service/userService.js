@@ -11,7 +11,9 @@ export const userRegister=async(data)=>{
         throw new CustomError("user already exists",400)
     }
 
+     
     const hashedpassword=await bcrypt.hash(password,8);
+    
     const newuser=new User({
         name,
         email,
@@ -30,7 +32,7 @@ export const loginuser=async(email,password)=>{
     if(!userData){
         throw new CustomError("please create an account,email is invalid",400)
     }
-    const isMatch=await bcrypt.compare(password,userData.password);
+    const isMatch=await bcrypt.compare(password,userData.password);   //compare user entered pwd and hashed pwd stored in the db
     if(!isMatch){
         throw new CustomError("invalid password/email,try again",400)
     }

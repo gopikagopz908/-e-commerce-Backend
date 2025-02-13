@@ -5,10 +5,8 @@ import { verifyToken } from "../utils/jwt.js";
 import User from "../models/userModels.js";
 
 const authenticate=async(req,res,next)=>{
-    
     try{
         const token=req.cookies.accessToken;
-        // console.log(token)
         if(!token){
             throw new CustomError('Access token miising',401)
         }
@@ -22,7 +20,7 @@ const authenticate=async(req,res,next)=>{
             throw new CustomError('user not found',404)
         }
         
-        req.user=user;
+        req.user=user;  //attach user to req obj
         next()
 
     }catch(err){

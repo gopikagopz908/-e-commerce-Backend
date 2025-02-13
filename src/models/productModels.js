@@ -26,9 +26,8 @@ const productSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    isDelete:{
+    isDelete:{   //delete flag instead of removing a db ,mark it as deleted 
         type:Boolean,
-        // required:true,
         default:false
     }
 

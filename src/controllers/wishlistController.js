@@ -1,5 +1,5 @@
 import asyncHandler from "../Middlewares/asyncHandler.js";
-import { addProductToWishlist } from "../service/wishListService.js";
+import { addProductToWishlist, getAllWishlistService, removeWishlistService } from "../service/wishListService.js";
 import { STATUS } from "../utils/constant.js";
 
 
@@ -18,8 +18,8 @@ export const addToWishlist=asyncHandler(async(req,res)=>{
 //remove wishlist
 export const removeSingleWishlist=asyncHandler(async(req,res)=>{
     const userId=req.user._id;
-    const{id}=req.params;  // product id
-    await removeWishlistService(userId,id)
+    const{productId}=req.params;  // product id
+    await removeWishlistService(userId,productId)
     res.json({
         status:STATUS.SUCCESS,
         message:"product removed from favourites successfully"
@@ -31,6 +31,7 @@ export const removeSingleWishlist=asyncHandler(async(req,res)=>{
 export const getAllWishlist=asyncHandler(async(req,res)=>{
     const userId=req.user._id;
     const userWishlist=await getAllWishlistService(userId)
+    // console.log(`hii`)
     if(!userWishlist||userWishlist.wishlist.length===0) {
         res.status(200).json({
             status:STATUS.SUCCESS,
@@ -39,7 +40,7 @@ export const getAllWishlist=asyncHandler(async(req,res)=>{
     }else{
         res.status(200).json({
             status:STATUS.SUCCESS,
-            message:
+            message:userWishlist.wishlist
         })
     }
 })

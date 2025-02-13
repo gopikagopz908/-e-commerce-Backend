@@ -7,7 +7,7 @@ const productRouter=express.Router()
 //public routes
 
 productRouter.get('',getAllProducts)
-productRouter.get('/:id',authenticate,singleProduct)
+productRouter.get('/:id',singleProduct)
 
 export default productRouter;
 

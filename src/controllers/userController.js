@@ -34,7 +34,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
   // Set cookies in the response  store token in cookies
 
   res
-    .cookie('accessToken', accessToken, { httpOnly: true, secure: false, maxAge: 15 * 60 * 1000, path: '/' })   //res.cookie(name, value, options(expiration, security))
+    .cookie('accessToken', accessToken, { httpOnly: true, secure: false, maxAge: 3 * 24 * 60 * 60 * 1000, path: '/' })   //res.cookie(name, value, options(expiration, security))
     .cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
 
     .status(200).json({

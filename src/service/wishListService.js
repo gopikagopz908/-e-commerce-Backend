@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Product from "../models/productModels.js";
 import wishlist from "../models/wishListModel.js";
 import CustomError from "../utils/customError.js";
@@ -23,14 +24,28 @@ export const addProductToWishlist=async(ProductId,userId)=>{
 
 }
 export const removeWishlistService=async(userId,productId)=>{
+    // console.log(`hii`)
+    // console.log(wishlist);
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(productId)) {
+        throw new Error("Invalid userId or productId");
+    }
     const updateResult=await wishlist.updateOne(
-        {user:userId},
+        {user: userId},
         {$pull:{wishlist:productId}}
     );
+  
     if(updateResult.matchedCount===0){
         throw new CustomError('no wishlists found for the user',404)
     }
     if(updateResult.modifiedCount===0){
         throw new CustomError('product not found in users wishlists',404)
     }
+}
+
+export const getAllWishlistService=async(userId)=>{
+
+    const userWishlist=await wishlist.findOne({user:userId}).populate('wishlist')
+   
+    return userWishlist
+
 }
