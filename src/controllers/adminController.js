@@ -2,7 +2,7 @@
 
 
 import asyncHandler from "../Middlewares/asyncHandler.js";
-import { getAllOrderService, getAllUserServices, getTotalProductsPurchasedServices, singleUserService, userBlockService } from "../service/adminService.js";
+import { getAllOrderService, getAllUserServices, getProfitService, getTotalProductsPurchasedServices, singleUserService, userBlockService } from "../service/adminService.js";
 import { STATUS } from "../utils/constant.js";
 
 //user blocking
@@ -22,8 +22,8 @@ export const userBlock=asyncHandler(async(req,res)=>{
 
 //all users 
 export const allUser=asyncHandler(async(req,res)=>{
-    const{page}=req.query;
-    const pageInt=parseInt(page,10)||1
+    const{page}=req.query; //eg:users?page=2
+    const pageInt=parseInt(page,10)||1  //converts page from string to number if page is missing default to 1
     const limit=10
     const skip=(pageInt-1)*limit
     const{usersList,totalUsers}=await getAllUserServices(limit,skip)
@@ -60,7 +60,9 @@ export const orderDetails=asyncHandler(async(req,res)=>{
     const orderList=await getAllOrderService()
     res.json({
         status:STATUS.SUCCESS,
-        message:"order list....",order:orderList
+        message:"order list....",
+        order:orderList,
+
     })
 })
 

@@ -8,7 +8,7 @@ export const userBlockService=async(id)=>{
         throw new CustomError("user not found",400)
     }
     userDetails.isBlocked=!userDetails.isBlocked; //If user found block anekil unblock akkum illel vice versa
-    await userDetails.save()
+    await userDetails.save()  //save to the db
     return userDetails;
 }
 //get all user-non-admin users
@@ -31,7 +31,7 @@ export const singleUserService=async(id)=>{
 }
 //order list
 export const getAllOrderService=async(id)=>{
-  const orderdata=await Order.find();
+  const orderdata=await Order.find()
   return orderdata
 }
 
