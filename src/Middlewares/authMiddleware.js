@@ -5,6 +5,7 @@ import { verifyToken } from "../utils/jwt.js";
 import User from "../models/userModels.js";
 
 const authenticate=async(req,res,next)=>{
+
     try{
         const token=req.cookies.accessToken;
         if(!token){

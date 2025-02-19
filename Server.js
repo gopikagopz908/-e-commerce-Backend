@@ -2,12 +2,14 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import connectDB from './src/db/dbconfig.js';
+import connectDB from './src/config/dbconfig.js'
 import userRouter from './src/routes/userRoute.js'
 import productRouter from './src/routes/productRoute.js'
 import cartRouter from './src/routes/cartRoute.js'
 import wishlistRouter from './src/routes/wishlistRoute.js'
 import orderRouter from './src/routes/orderRouter.js'
+
+import adminRouter from './src/routes/adminRouter.js'
 // import bodyParser from "body-parser";
 import errorHandler from './src/Middlewares/errorhandler.js';
 
@@ -27,6 +29,8 @@ app.use('/api/cart',cartRouter)
 app.use('/api/wishlist',wishlistRouter)
 app.use('/api/order',orderRouter)
 
+//admin routes
+app.use('/api/admin',adminRouter)
 
 
 app.use(errorHandler)

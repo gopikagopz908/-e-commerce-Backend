@@ -41,3 +41,33 @@ export const getProductByIdService=async(id)=>{
     }
     return productDetails
 }
+
+
+//add new product
+export const addProduction=async({name,...rest})=>{
+    
+    const existingItem=await Product.findOne({name})
+    
+    if(existingItem){
+        throw new CustomError("product already exists",400)
+        
+    }
+    const newProduct=new Product({name,...rest})
+    
+    await newProduct.save()
+    
+    return newProduct;
+}
+
+export const updateProductService=async(_id,updateItems)=>{
+    const existing=await Product.findById(_id)
+
+    if(existing){
+        throw new CustomError('product is unavailable',400)
+
+        const data=await Product.findByIdAndUpdate({_id,isDelete:false},{$set:{...updateItems}},{new:true}) // it ensures returns the updated doc not the old one
+
+        return data
+    }
+    
+}

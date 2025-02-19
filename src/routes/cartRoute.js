@@ -1,6 +1,7 @@
 import express from 'express'
 import {   addToCart, decrementProductQuantity, getCart, incrementProductQuantity, removeFromCart } from '../controllers/cartController.js'
 import authenticate from '../Middlewares/authMiddleware.js';
+import { addProduct } from '../controllers/productController.js';
 
 
 
@@ -14,5 +15,7 @@ router.delete('/removeFromCart/:productId',authenticate,removeFromCart)
 
 router.put('/increment/:productId',authenticate,incrementProductQuantity)
 router.put('/decrement/:productId',authenticate,decrementProductQuantity)
+
+
 
 export default router;
