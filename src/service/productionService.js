@@ -62,7 +62,7 @@ export const addProduction=async({name,...rest})=>{
 export const updateProductService=async(_id,updateItems)=>{
     const existing=await Product.findById(_id)
 
-    if(existing){
+    if(!existing){
         throw new CustomError('product is unavailable',400)
 
         const data=await Product.findByIdAndUpdate({_id,isDelete:false},{$set:{...updateItems}},{new:true}) // it ensures returns the updated doc not the old one

@@ -1,5 +1,5 @@
 import asyncHandler from "../Middlewares/asyncHandler.js";
-import {  addProduction, getAllProductService, getProductByIdService } from "../service/productionService.js";
+import {  addProduction, getAllProductService, getProductByIdService, updateProductService } from "../service/productionService.js";
 import { STATUS } from "../utils/constant.js";
 import CustomError from "../utils/customError.js";
 
@@ -77,6 +77,7 @@ export const addProduct=asyncHandler(async(req,res)=>{
 
 export const updateProduct=asyncHandler(async(req,res)=>{
     const{_id,...updateItems}=req.body
+    console.log(req.body)
     if(!_id){
         throw new CustomError('product is not found')
     }

@@ -72,6 +72,8 @@ export const userCount=asyncHandler(async(req,res)=>{
     const{totalUsers}=await getAllUserServices(10,1)
     const message=totalUsers?"User list":"no users found"
     res.json({
+
+        
         status:STATUS.SUCCESS,
         message:message,
         totalUsers

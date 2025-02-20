@@ -26,7 +26,7 @@ export const getAllUserServices=async(limit,skip)=>{
 export const singleUserService=async(id)=>{
     const users=await User.findById(id)
     if(!users)
-        throw CustomError("user not found",400)
+        throw new CustomError("user not found",400)
     else return users;
 }
 //order list
@@ -41,7 +41,7 @@ export const getProfitService=async()=>{
     const result=await Order.aggregate([{$group:{_id:null,totalRevenue:{$sum:"$total"}}}])
     return result;
 }
-
+//total purchase
 
 export const getTotalProductsPurchasedServices=async()=>{
     const result=await Order.aggregate([
