@@ -71,3 +71,14 @@ export const updateProductService=async(_id,updateItems)=>{
     }
     
 }
+
+export const deleteProductService=async(id)=>{
+    const existingProduct=await Product.findById(id)
+
+    if(!existingProduct){
+        throw new CustomError("product not found",404)
+    }
+    return await Product.findByIdAndUpdate(
+        id,{isDelete:true},{new:true}   //soft delete bcz instead of permanently deleting the product from the db 
+    )
+}

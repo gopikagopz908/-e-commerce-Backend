@@ -1,5 +1,5 @@
 import express from 'express'
-import { addProduct, getAllProducts, singleProduct, updateProduct } from '../controllers/productController.js'
+import { addProduct, deleteProduct, getAllProducts, singleProduct, updateProduct } from '../controllers/productController.js'
 import authenticate from '../Middlewares/authMiddleware.js'
 import isAdmin from '../Middlewares/isAdmin.js'
 
@@ -15,7 +15,9 @@ productRouter.get('/:id',singleProduct)
 //admin route
 productRouter.post('/addproduct',authenticate,isAdmin,upload.single('image'),addProduct)
 
-productRouter.put('/updateProduct',authenticate,isAdmin,upload.single('image'),updateProduct)
+productRouter.patch('/updateProduct',authenticate,isAdmin,upload.single('image'),updateProduct)
+
+productRouter.patch('/deleteProduct/:id',authenticate,isAdmin,deleteProduct)
 
 
 

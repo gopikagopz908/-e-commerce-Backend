@@ -1,5 +1,5 @@
 import asyncHandler from "../Middlewares/asyncHandler.js";
-import {  addProduction, getAllProductService, getProductByIdService, updateProductService } from "../service/productionService.js";
+import {  addProduction, deleteProductService, getAllProductService, getProductByIdService, updateProductService } from "../service/productionService.js";
 import { STATUS } from "../utils/constant.js";
 import CustomError from "../utils/customError.js";
 
@@ -73,11 +73,10 @@ export const addProduct=asyncHandler(async(req,res)=>{
     })
 })
 
-//update product
+//update product/edit
 
 export const updateProduct=asyncHandler(async(req,res)=>{
     const{_id,...updateItems}=req.body
-    console.log(req.body)
     if(!_id){
         throw new CustomError('product is not found')
     }
@@ -86,5 +85,20 @@ export const updateProduct=asyncHandler(async(req,res)=>{
         status:STATUS.SUCCESS,
         message:'product updated successfully',
         updateProduct
+    })
+})
+
+//delete  single product
+
+export const deleteProduct=asyncHandler(async(req,res)=>{
+    const {id}=req.params;
+    if(!id){
+        throw new CustomError("product is not found",404)
+    }
+    const deleteproduct=await deleteProductService(id)
+    res.json({
+        status:STATUS.SUCCESS,
+        message:"product deleted succesfully",
+        deleteProduct
     })
 })

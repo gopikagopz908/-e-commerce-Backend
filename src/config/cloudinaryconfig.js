@@ -12,7 +12,7 @@ cloudinary.config({
     api_secret:process.env.CLOUDINARY_API_SECRET
 })
 
-//cloudinary storahe setup
+//cloudinary storage setup
 
 const storage=new CloudinaryStorage({
     cloudinary,

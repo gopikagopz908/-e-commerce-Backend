@@ -1,6 +1,6 @@
 import User from "../models/userModels.js";
 import CustomError from '../utils/customError.js'
-import Order from '../models/userModels.js'
+import Order from '../models/orderModel.js'
 
 export const userBlockService=async(id)=>{
     const userDetails=await User.findById(id)
@@ -14,10 +14,10 @@ export const userBlockService=async(id)=>{
 //get all user-non-admin users
 export const getAllUserServices=async(limit,skip)=>{
     const usersList=await User
-    .find({isAdmin:{$ne:true}})
+    .find({role:{$ne:"admin"}})
     .skip(skip)
     .limit(limit)
-    const totalUsers=await User.countDocuments({isAdmin:{$ne:true}});
+    const totalUsers=await User.countDocuments({role:{$ne:"admin"}});
     return {usersList,totalUsers}
 }
 
@@ -41,6 +41,8 @@ export const getProfitService=async()=>{
     const result=await Order.aggregate([{$group:{_id:null,totalRevenue:{$sum:"$total"}}}])
     return result;
 }
+
+
 //total purchase
 
 export const getTotalProductsPurchasedServices=async()=>{
