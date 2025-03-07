@@ -10,7 +10,7 @@ const orderSchema=new mongoose.Schema({
         {
             productId:{
         type:mongoose.Types.ObjectId,
-        ref:'Product',
+        ref:'product',
         required:true
         },
         quantity:{
@@ -33,11 +33,30 @@ const orderSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    razorpayOrderId:{
+        type:String,
+    },
     total:{
         type:Number,
         required:true
+    },
+    address:{
+        type:String,
+        
+    },
+    phoneNumber:{
+        type:Number,
+    },
+    state:{
+        type:String,
+    },
+    pincode:{
+        type:Number,
     }
-},{
+
+
+}    
+,{
     timestamps:true,
 }
 )

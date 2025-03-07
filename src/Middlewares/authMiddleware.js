@@ -9,7 +9,7 @@ const authenticate=async(req,res,next)=>{
     try{
         const token=req.cookies.accessToken;
         if(!token){
-            throw new CustomError('Access token miising',401)
+            return res.status(401).json({isAuthenticated:false,message:"not autheticated"})
         }
 
         const decoded=verifyToken(token,process.env.JWT_SECRET)

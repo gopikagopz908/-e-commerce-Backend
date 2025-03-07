@@ -1,5 +1,5 @@
 import asyncHandler from "../Middlewares/asyncHandler.js"
-import { loginuser, userRegister } from "../service/userService.js";
+import { loginuser, refreshAccessTokenService, userRegister } from "../service/userService.js";
 import { STATUS } from "../utils/constant.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 
@@ -7,6 +7,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 
 export const registerUser=asyncHandler(async(req,res)=>{
     const data=req.body;
+    
     const createuser=await userRegister(data)
     res.status(201).json({
         status:STATUS.SUCCESS,
@@ -43,9 +44,49 @@ export const loginUser=asyncHandler(async(req,res)=>{
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        role:user.role
       },accessToken,refreshToken
     }
   )
 })
 
+//create new accesstoken
+export const refreshToken = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+
+
+  const { newAccessToken } = await refreshAccessTokenService(refreshToken);
+  console.log("newAccessToken",newAccessToken)
+  res
+    .cookie("accessToken", newAccessToken, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 15 * 60 * 1000,
+    })
+    .status(200)
+    .json({
+      status: STATUS.SUCCESS,
+      message: "Access token refereshed",
+    });
+});
+
+export const logoutUser = asyncHandler(async (req, res) => {
+  // await logoutUserService();
+
+  res.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/'
+  });
+  res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/'
+  });
+
+  res.status(200).json({ message: 'Logged out successfully' });
+});

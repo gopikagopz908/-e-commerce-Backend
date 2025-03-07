@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import User from '../models/userModels.js'
 
 import CustomError from '../utils/customError.js'
+import { generateAccessToken, verifyToken } from '../utils/jwt.js'
 //service of new user
 export const userRegister=async(data)=>{
     const {name,email,password,username}=data
@@ -36,10 +37,33 @@ export const loginuser=async(email,password)=>{
     if(!isMatch){
         throw new CustomError("invalid password/email,try again",400)
     }
-    if(userData.isBlock){
+    if(userData.isBlocked){
         throw new CustomError("your account is blocked",403)
+    }
+    if(userData.role==="admin"){
+        throw new CustomError("user not found",404)
     }
 
     return userData;
 }
 
+export const refreshAccessTokenService=async(refreshToken)=>{
+
+    //refresh token exists
+    if(!refreshToken){
+         throw new CustomError("Refresh token missing",401)
+    }
+    //verify refresh token
+    const decoded=verifyToken(refreshToken,process.env.JWT_REFRESH_SECRET)
+    console.log(decoded,"decoded data.......")
+    if(!decoded){
+        throw new CustomError("Invalid or expired refresh token", 403)
+    }
+    const user=await User.findById(decoded.id)
+    console.log(user,"user data")
+    if(!user){
+        throw new CustomError("User not found",404)
+    }
+    const newAccessToken=generateAccessToken(user)
+    return {newAccessToken}
+  }

@@ -1,6 +1,6 @@
 export const productValidationSchema = Joi.object({
     _id: Joi.string().optional(),
-    name: Joi.string().min(3).max(50).required(),
+    title: Joi.string().min(3).max(50).required(),
     price: Joi.number().positive().required(),
     quantity: Joi.number().integer().min(0).required(),
     url: Joi.string().uri().optional(),

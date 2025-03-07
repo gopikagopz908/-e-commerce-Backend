@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 const productSchema=new mongoose.Schema({
-    name:{
+    title:{
         type:String,
         required:true
     },
@@ -20,6 +20,9 @@ const productSchema=new mongoose.Schema({
         required:true
     },
     category: {
+
+
+
         type: String,
         required: true
       },
@@ -30,6 +33,10 @@ const productSchema=new mongoose.Schema({
     isDelete:{   //delete flag instead of removing a db ,mark it as deleted 
         type:Boolean,
         default:false
+    },
+    brand:{
+        type:String,
+        required:true
     }
 
 });

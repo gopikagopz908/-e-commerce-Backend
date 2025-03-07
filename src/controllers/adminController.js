@@ -2,8 +2,10 @@
 
 
 import asyncHandler from "../Middlewares/asyncHandler.js";
-import { getAllOrderService, getAllUserServices, getProfitService, getTotalProductsPurchasedServices, singleUserService, userBlockService } from "../service/adminService.js";
+import Order from "../models/orderModel.js";
+import { getAllOrderService, getAllUserServices, getProfitService, getTotalProductsPurchasedServices, loginAdminService, singleUserService, userBlockService } from "../service/adminService.js";
 import { STATUS } from "../utils/constant.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 
 //user blocking
 
@@ -103,3 +105,52 @@ export const totalProductsPurchased=asyncHandler(async(req,res)=>{
     })
 
 })
+
+export const singleOrder=asyncHandler(async(req,res)=>{
+    const {id}=req.params;
+    const order=await Order.findOne({user:id})
+    
+        .populate({
+            path: 'items.productId',
+
+          });
+    
+    
+
+    
+    res.status(200).json({
+      status:STATUS.SUCCESS,
+      message:"order viewed successfully",
+      order,
+
+  
+    })
+    
+  })
+  export const loginAdmin=asyncHandler(async(req,res)=>{
+      const {email,password}=req.body;
+      const admin=await loginAdminService(email,password)
+  
+      const accessToken = generateAccessToken(admin);
+    const refreshToken = generateRefreshToken(admin);
+
+  
+    // Set cookies in the response  store token in cookies
+  
+    res
+      .cookie('accessToken', accessToken, { httpOnly: true, secure: false, maxAge: 3 * 24 * 60 * 60 * 1000, path: '/' })   //res.cookie(name, value, options(expiration, security))
+      .cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 })
+  
+      .status(200).json({
+        status: STATUS.SUCCESS,
+        message: 'admin logged in successfull',
+        admin: {
+          id: admin._id,
+          username: admin.username,
+          email: admin.email,
+          role:admin.role
+        },accessToken,refreshToken
+      }
+    )
+  })
+  

@@ -1,3 +1,4 @@
+import  required  from 'joi';
 import mongoose from 'mongoose';
 
 
@@ -31,9 +32,7 @@ const userSchema=new mongoose.Schema({
         type:Boolean,
        
         default:false,    
-}
-
-
+},
 },{
     timestamps: true,
   }

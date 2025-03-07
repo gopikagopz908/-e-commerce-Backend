@@ -1,6 +1,8 @@
 import User from "../models/userModels.js";
 import CustomError from '../utils/customError.js'
 import Order from '../models/orderModel.js'
+import bcrypt from 'bcrypt'
+
 
 export const userBlockService=async(id)=>{
     const userDetails=await User.findById(id)
@@ -30,10 +32,28 @@ export const singleUserService=async(id)=>{
     else return users;
 }
 //order list
-export const getAllOrderService=async(id)=>{
-  const orderdata=await Order.find()
-  return orderdata
-}
+// export const getAllOrderService=async(id)=>{
+//   const orderdata=await Order.find()
+//   console.log(orderdata)
+//   return orderdata
+// }
+export const getAllOrderService = async () => {
+    try {
+      const orderData = await Order.find()
+        .populate({
+          path: "items.productId",
+          model: "product",
+          select: "name url price"
+        });
+  
+      return orderData;
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      throw error;
+    }
+  };
+  
+  
 
 //get total revenue
 
@@ -51,4 +71,23 @@ export const getTotalProductsPurchasedServices=async()=>{
         {$group:{_id:null,totalProductsPurchased:{$sum:"$items.quantity"}}}
     ])
     return result;
+}
+
+export const loginAdminService=async(email,password)=>{
+    const userData=await User.findOne({email})
+    if(!userData){
+        throw new CustomError("please create an account,email is invalid",400)
+    }
+    const isMatch=await bcrypt.compare(password,userData.password);   //compare user entered pwd and hashed pwd stored in the db
+    if(!isMatch){
+        throw new CustomError("invalid password/email,try again",400)
+    }
+    if(userData.isBlocked){
+        throw new CustomError("your account is blocked",403)
+    }
+    if(userData.role==="user"){
+         throw new CustomError("Admin not found",404)
+    }
+
+    return userData;
 }

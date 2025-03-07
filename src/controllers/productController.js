@@ -47,8 +47,9 @@ export const singleProduct=asyncHandler(async(req,res)=>{
 //add product
 
 export const addProduct=asyncHandler(async(req,res)=>{
+  
     
-    const{name,...rest}=req.body;
+    const{title,...rest}=req.body;
     let url;
     
     if(req.file&&req.file.path){  //it checks if the image file uploaded
@@ -64,7 +65,7 @@ export const addProduct=asyncHandler(async(req,res)=>{
     }
     //get image path if file exists
 
-    const data=await addProduction({name,url,...rest})  //to save the product data services
+    const data=await addProduction({title,url,...rest})  //to save the product data services
 
     res.status(201).json({
         success:STATUS.SUCCESS,
@@ -81,6 +82,7 @@ export const updateProduct=asyncHandler(async(req,res)=>{
         throw new CustomError('product is not found')
     }
     const updateProduct=await updateProductService(_id,updateItems)
+
     res.status(200).json({
         status:STATUS.SUCCESS,
         message:'product updated successfully',

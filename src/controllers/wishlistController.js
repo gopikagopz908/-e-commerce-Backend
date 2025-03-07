@@ -5,6 +5,7 @@ import { STATUS } from "../utils/constant.js";
 
 
 export const addToWishlist=asyncHandler(async(req,res)=>{
+
     const{productId}=req.params;
     const userId=req.user.id;
     const wishListProduct=await addProductToWishlist(productId,userId)
@@ -35,12 +36,13 @@ export const getAllWishlist=asyncHandler(async(req,res)=>{
     if(!userWishlist||userWishlist.wishlist.length===0) {
         res.status(200).json({
             status:STATUS.SUCCESS,
-            message:'wishlist is empty'
+            message:'wishlist is empty',
+            
         })
     }else{
         res.status(200).json({
             status:STATUS.SUCCESS,
-            message:userWishlist.wishlist
+            product:userWishlist.wishlist
         })
     }
 })

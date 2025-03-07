@@ -33,6 +33,7 @@ export const addProductToCart=async(productId,userId)=>{
 }
 
 export const getUserCart=async(userId)=>{
+    
     const cart=await Cart.findOne({user:userId}).populate('products.product');
     return cart
 }
