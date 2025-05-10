@@ -17,7 +17,7 @@ import { refreshToken } from './src/controllers/userController.js';
 dotenv.config();
 const app=express()
 app.use(cors({
-    origin: ['http://localhost:5173','https://mern-e-commerce-flax-sigma.vercel.app/'], // Your frontend URL
+    origin: ['http://localhost:5173','https://mern-e-commerce-flax-sigma.vercel.app'], // Your frontend URL
     credentials: true, // Allow cookies/auth headers
   }));
 app.use(express.json());
