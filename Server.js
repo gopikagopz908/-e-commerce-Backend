@@ -8,10 +8,9 @@ import productRouter from './src/routes/productRoute.js'
 import cartRouter from './src/routes/cartRoute.js'
 import wishlistRouter from './src/routes/wishlistRoute.js'
 import orderRouter from './src/routes/orderRouter.js'
-
+import errorHandler from './src/Middlewares/errorHandler.js'
 import adminRouter from './src/routes/adminRouter.js'
 // import bodyParser from "body-parser";
-import errorHandler from './src/Middlewares/errorhandler.js';
 import { refreshToken } from './src/controllers/userController.js';
 
 
